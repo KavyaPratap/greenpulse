@@ -1,0 +1,227 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="reels-wrapper">
+  <div class="reels-container">
+    <!-- Reel 1 -->
+    <div class="reel active">
+      <video src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Beach_of_Novosibirsk_Reservoir_1.ogv"
+      
+             autoplay loop muted playsinline></video>
+      <div class="reel-overlay">
+        <div class="profile">
+          <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="Obakeneko">
+          <span>Obakeneko</span>
+        </div>
+        <p class="caption">Beach of Novosibirsk Reservoir, Russia.</p>
+      </div>
+      
+      <div class="action-buttons">
+        <button class="like-btn" onclick="likeReel(this)">
+          ❤️ <span>120</span>
+        </button>
+        <button class="comment-btn" onclick="toggleComments(this)">
+            💬 <span>45</span>
+          </button>
+          
+        <button class="share-btn">
+          ↗️ <span>Share</span>
+        </button>
+      </div>
+
+      <div class="comment-box">
+        <div class="comment-box-header">
+          <h4>Comments</h4>
+          <button class="close-comments" onclick="toggleComments(this)">×</button>
+
+        </div>
+        <input type="text" placeholder="Add a comment...">
+        <div class="comments">
+          <p>User1: Beautiful scenery! 🌍</p>
+          <p>EcoFriend: Let's keep it clean!</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reel active">
+        <video src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Beach_of_Novosibirsk_Reservoir_1.ogv"
+        
+               autoplay loop muted playsinline></video>
+        <div class="reel-overlay">
+          <div class="profile">
+            <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="Obakeneko">
+            <span>Obakeneko</span>
+          </div>
+          <p class="caption">Beach of Novosibirsk Reservoir, Russia.</p>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="like-btn" onclick="likeReel(this)">
+            ❤️ <span>120</span>
+          </button>
+          <button class="comment-btn" onclick="toggleComments(this)">
+              💬 <span>45</span>
+            </button>
+            
+          <button class="share-btn">
+            ↗️ <span>Share</span>
+          </button>
+        </div>
+  
+        <div class="comment-box">
+          <div class="comment-box-header">
+            <h4>Comments</h4>
+            <button class="close-comments" onclick="toggleComments()">×</button>
+          </div>
+          <input type="text" placeholder="Add a comment...">
+          <div class="comments">
+            <p>User1: Beautiful scenery! 🌍</p>
+            <p>EcoFriend: Let's keep it clean!</p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="reel active">
+        <video src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Beach_of_Novosibirsk_Reservoir_1.ogv"
+        
+               autoplay loop muted playsinline></video>
+        <div class="reel-overlay">
+          <div class="profile">
+            <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="Obakeneko">
+            <span>Obakeneko</span>
+          </div>
+          <p class="caption">Beach of Novosibirsk Reservoir, Russia.</p>
+        </div>
+        
+        <div class="action-buttons">
+          <button class="like-btn" onclick="likeReel(this)">
+            ❤️ <span>120</span>
+          </button>
+          <button class="comment-btn" onclick="toggleComments(this)">
+              💬 <span>45</span>
+            </button>
+            
+          <button class="share-btn">
+            ↗️ <span>Share</span>
+          </button>
+        </div>
+  
+        <div class="comment-box">
+          <div class="comment-box-header">
+            <h4>Comments</h4>
+            <button class="close-comments" onclick="toggleComments()">×</button>
+          </div>
+          <input type="text" placeholder="Add a comment...">
+          <div class="comments">
+            <p>User1: Beautiful scenery! 🌍</p>
+            <p>EcoFriend: Let's keep it clean!</p>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+<script>
+    // Fixed like functionality
+    function likeReel(button) {
+      const span = button.querySelector('span');
+      let count = parseInt(span.innerText);
+      
+      if (!button.classList.contains('liked')) {
+        count++;
+        button.classList.add('liked');
+      } else {
+        count--;
+        button.classList.remove('liked');
+      }
+      span.innerText = count;
+    }
+  
+    // Enhanced swipe functionality
+    let touchStartY = 0;
+    const container = document.querySelector('.reels-container');
+    let currentReel = 0;
+    const reels = document.querySelectorAll('.reel');
+  
+    container.addEventListener('touchstart', e => {
+      touchStartY = e.touches[0].clientY;
+    });
+  
+    container.addEventListener('touchend', e => {
+      const touchEndY = e.changedTouches[0].clientY;
+      const deltaY = touchStartY - touchEndY;
+      const activeComment = document.querySelector('.comment-box.visible');
+  
+      if (!activeComment && Math.abs(deltaY) > 30) { // More sensitive swipe
+        if (deltaY > 0) { // Swipe up
+          showNextReel();
+        } else { // Swipe down
+          showPrevReel();
+        }
+      }
+    });
+    function toggleComments(btn) {
+  let box;
+
+  if (btn) {
+    // called from a button inside a specific reel
+    box = btn.closest('.reel').querySelector('.comment-box');
+  } else {
+    // no button passed: find whichever box is open
+    box = document.querySelector('.comment-box.visible');
+  }
+
+  if (!box) return;        // nothing to toggle
+  box.classList.toggle('visible');
+}
+
+    // Mouse drag support for desktop
+    let mouseStartY = 0;
+    container.addEventListener('mousedown', e => {
+      mouseStartY = e.clientY;
+    });
+  
+    container.addEventListener('mouseup', e => {
+      const mouseEndY = e.clientY;
+      const deltaY = mouseStartY - mouseEndY;
+      const activeComment = document.querySelector('.comment-box.visible');
+  
+      if (!activeComment && Math.abs(deltaY) > 50) {
+        if (deltaY > 0) {
+          showNextReel();
+        } else {
+          showPrevReel();
+        }
+      }
+    });
+  
+    function showNextReel() {
+      currentReel = (currentReel + 1) % reels.length;
+      updateActiveReel();
+    }
+  
+    function showPrevReel() {
+      currentReel = (currentReel - 1 + reels.length) % reels.length;
+      updateActiveReel();
+    }
+  
+    function updateActiveReel() {
+      // Hide all comments when switching
+      document.querySelectorAll('.comment-box').forEach(box => box.classList.remove('visible'));
+      
+      reels.forEach((reel, index) => {
+        reel.classList.toggle('active', index === currentReel);
+      });
+      
+      // Pause all videos except active
+      document.querySelectorAll('video').forEach(video => video.pause());
+      reels[currentReel].querySelector('video').play();
+    }
+  
+    // Handle video autoplay
+    document.querySelectorAll('video').forEach(video => {
+      video.addEventListener('click', () => video.paused ? video.play() : video.pause());
+    });
+  </script>
+  {% endblock %}

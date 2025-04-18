@@ -1,0 +1,65 @@
+<!-- templates/profile.html -->
+{% extends 'layout.html' %}
+{% block content %}
+<div class="profile-container">
+  <!-- Header: avatar + name/join date -->
+  <div class="profile-header">
+    <img src="{{ url_for('static', filename='images/avatar.png') }}"
+         alt="User Avatar" class="avatar">
+    <div>
+      <h2>Eco Warrior 🌍</h2>
+      <p>Joined on April 5, 2025</p>
+    </div>
+  </div>
+
+  <!-- Grid: Stats, Badges, Recent Activity -->
+  <div class="profile-grid">
+    <!-- Stats Cards -->
+    <div class="card stats">
+      <h3>🌳 Trees Planted</h3>
+      <span>12</span>
+    </div>
+    <div class="card stats">
+      <h3>🛑 Carbon Saved</h3>
+      <span>28 kg</span>
+    </div>
+    <div class="card stats">
+      <h3>🎁 Rewards Earned</h3>
+      <span>3 Badges</span>
+    </div>
+    <div class="card stats">
+      <h3>💚 Donations</h3>
+      <span>₹500</span>
+    </div>
+
+    <!-- Badges Showcase -->
+    <div class="card badges">
+      <h3>Badges</h3>
+      <div class="badges-list">
+        <img src="{{ url_for('static', filename='images/badge1.png') }}" alt="Badge 1">
+        <img src="{{ url_for('static', filename='images/badge2.png') }}" alt="Badge 2">
+        <img src="{{ url_for('static', filename='images/badge3.png') }}" alt="Badge 3">
+      </div>
+    </div>
+
+    <!-- Recent Activity Feed -->
+    <div class="card recent-activity">
+      <h3>Recent Activity</h3>
+      <ul>
+        <li>
+          <span>Reported 3 litter spots</span>
+          <time>Yesterday</time>
+        </li>
+        <li>
+          <span>Beautified park with AR filter</span>
+          <time>2 days ago</time>
+        </li>
+        <li>
+          <span>Donated ₹200 to GreenFund</span>
+          <time>1 week ago</time>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock %}
